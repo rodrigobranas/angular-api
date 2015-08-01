@@ -1,0 +1,21 @@
+{
+  "name": "angular-api",
+  "main": "angular-api.js",
+  "version": "0.1",
+  "homepage": "https://github.com/rodrigobranas/angular-api",
+  "authors": [
+    "Rodrigo Branas <rodrigo.branas@gmail.com>"
+  ],
+  "description": "Angular API mapper",
+  "keywords": [
+    "angular"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
