@@ -31,7 +31,7 @@ module.exports = function (grunt) {
         src: ['src/api.js', 'src/angular-api.js'],
         dest: 'dist/angular-api.js'
       }
-    }
+    },
     uglify: {
       dist: {
         src: ['dist/angular-api.js'],
