@@ -1,5 +1,5 @@
 var buildApi = function (config, http) {
-	
+
 	var createQueryString = function (queryString) {
 		var parameters = [];
 		for(parameter in queryString) {
@@ -7,12 +7,12 @@ var buildApi = function (config, http) {
 		}
 		return "?" + parameters.join("&");
 	};
-	
+
 	var addTimestamp = function (url, queryString) {
-	  if (!config.nocache) return url;
-	  return url + ((queryString) ? "&" : "?") + "nocache=" + new Date().getTime();
+		if (!config.nocache) return url;
+		return url + ((queryString) ? "&" : "?") + "nocache=" + new Date().getTime();
 	};
-	
+
 	var createUrl = function (parent, resource, id, queryString) {
 		return parent + resource + ((id) ? "/" + id : "") + ((queryString) ? createQueryString(queryString) : "");
 	};
@@ -33,12 +33,17 @@ var buildApi = function (config, http) {
 			return http.post(createUrl(parent, resourceName), data);
 		};
 		resource.update = function (id, data) {
+			if (options.beforeUpdate) data = options.beforeUpdate(data);
 			return http.put(createUrl(parent, resourceName, id), data);
+		};
+		resource.patch = function (id, data) {
+			if (options.beforePatch) data = options.beforePatch(data);
+			return http.patch(createUrl(parent, resourceName, id), data);
 		};
 		resource.delete = function (id) {
 			return http.delete(createUrl(parent, resourceName, id));
 		};
-		
+
 		resource.getOperations = function (id) {
 			var url = createUrl(parent, resourceName, id);
 			var operations = {};
@@ -50,10 +55,10 @@ var buildApi = function (config, http) {
 					}
 				})(operation);
 			}
-			
+
 			return operations;
 		};
-		
+
 		return resource;
 	};
 
