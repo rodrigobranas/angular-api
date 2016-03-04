@@ -23,7 +23,7 @@ var buildApi = function (config, http) {
 			return createUrl(parent, resourceName, id) + "/";
 		};
 		resource.get = function (id, queryString) {
-			return http.get(addTimestamp(createUrl(parent, resourceName, id, queryString)));
+			return http.get(addTimestamp(createUrl(parent, resourceName, id, queryString), queryString));
 		};
 		resource.list = function (queryString) {
 			return http.get(addTimestamp(createUrl(parent, resourceName, undefined, queryString), queryString));
@@ -46,7 +46,7 @@ var buildApi = function (config, http) {
 				(function (operation) {
 					operations[operation] = function (data, queryString) {
 						var method = options.operations[operation].method;
-						return http[method](addTimestamp(url + "/" + operation + ((queryString) ? createQueryString(queryString) : "")), data);
+						return http[method](addTimestamp(url + "/" + operation + ((queryString) ? createQueryString(queryString) : ""), ((queryString) ? createQueryString(queryString) : "")), data);
 					}
 				})(operation);
 			}
