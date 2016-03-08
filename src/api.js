@@ -22,26 +22,21 @@ var buildApi = function (config, http) {
 		if (options.resources) resource.resource = function (id) {
 			return createUrl(parent, resourceName, id) + "/";
 		};
-		resource.get = function (id) {
-			return http.get(addTimestamp(createUrl(parent, resourceName, id)));
+		resource.get = function (id, queryString) {
+			return http.get(addTimestamp(createUrl(parent, resourceName, id, queryString), queryString));
 		};
 		resource.list = function (queryString) {
 			return http.get(addTimestamp(createUrl(parent, resourceName, undefined, queryString), queryString));
 		};
-		resource.save = function (data) {
+		resource.save = function (data, queryString) {
 			if (options.beforeSave) data = options.beforeSave(data);
-			return http.post(createUrl(parent, resourceName), data);
+			return http.post(createUrl(parent, resourceName, undefined, queryString), data);
 		};
-		resource.update = function (id, data) {
-			if (options.beforeUpdate) data = options.beforeUpdate(data);
-			return http.put(createUrl(parent, resourceName, id), data);
+		resource.update = function (id, data, queryString) {
+			return http.put(createUrl(parent, resourceName, id, queryString), data);
 		};
-		resource.patch = function (id, data) {
-			if (options.beforePatch) data = options.beforePatch(data);
-			return http.patch(createUrl(parent, resourceName, id), data);
-		};
-		resource.delete = function (id) {
-			return http.delete(createUrl(parent, resourceName, id));
+		resource.delete = function (id, queryString) {
+			return http.delete(createUrl(parent, resourceName, id, queryString));
 		};
 
 		resource.getOperations = function (id) {
@@ -49,9 +44,9 @@ var buildApi = function (config, http) {
 			var operations = {};
 			for(operation in options.operations) {
 				(function (operation) {
-					operations[operation] = function (data) {
+					operations[operation] = function (data, queryString) {
 						var method = options.operations[operation].method;
-						return http[method](addTimestamp(url + "/" + operation), data);
+						return http[method](addTimestamp(url + "/" + operation + ((queryString) ? createQueryString(queryString) : ""), ((queryString) ? createQueryString(queryString) : "")), data);
 					}
 				})(operation);
 			}
