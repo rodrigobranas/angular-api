@@ -51,5 +51,5 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-karma');
 
-  grunt.registerTask('dist',  ['clean', 'jshint', 'concat', 'uglify', 'karma']);
+  grunt.registerTask('dist',  ['clean', 'jshint', 'concat', 'uglify']);
 }
