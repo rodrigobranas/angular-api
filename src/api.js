@@ -2,7 +2,7 @@ var buildApi = function (config, http) {
 	
 	var createQueryString = function (queryString) {
 		var parameters = [];
-		for(parameter in queryString) {
+		for(var parameter in queryString) {
 			parameters.push(parameter + "=" + queryString[parameter]);
 		}
 		return "?" + parameters.join("&");
@@ -45,7 +45,7 @@ var buildApi = function (config, http) {
 		resource.getOperations = function (id) {
 			var url = createUrl(parent, resourceName, id);
 			var operations = {};
-			for(operation in options.operations) {
+			for(var operation in options.operations) {
 				(function (operation) {
 					operations[operation] = function (data, queryString, config) {
 						var method = options.operations[operation].method;
@@ -62,7 +62,7 @@ var buildApi = function (config, http) {
 
 	var createStructure = function (resources, parent) {
 		var structure = {};
-		for(resourceChild in resources) {
+		for(var resourceChild in resources) {
 			structure[resourceChild] = createResource(resourceChild, parent, resources[resourceChild]);
 			if (!resources[resourceChild].resources) continue;
 			(function (resourceChild) {
